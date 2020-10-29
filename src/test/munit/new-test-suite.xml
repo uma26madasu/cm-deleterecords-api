@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-500-UNKNOWN"
+		doc:id="3e5038c0-9006-4d06-8a6b-1a330a58a23e" description="Test"
+		expectedErrorType="APIKIT:ANY">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="4764ee32-0b16-4ae1-9760-f5937e97a884"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="#['APIKIT:ANY']" />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[500]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="5475567b-86e5-4645-bcb5-40ea0e8870b0"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="27b3b746-56ef-4682-8c72-43d7676a5ef2"
+				actual="#[vars.httpStatus]" expected="#[500]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-404-NOT_FOUND"
+		doc:id="fc3d58a9-57b2-4616-be0b-bc4558d3e6a9" description="Test"
+		expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="e25c0922-2931-4df6-8c5c-b07d1d821e63"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId='#["APIKIT:NOT_FOUND"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[404]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="908fc54b-5896-4a55-9dab-fb3a34b862d8"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="68293b1e-e4f7-49a7-b340-17a9c461fe83"
+				actual="#[vars.httpStatus]" expected="#[404]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-405-METHOD_NOT_ALLOWED"
+		doc:id="6b8b4c02-39ae-4127-9900-6d5cfb6a8f0e" description="Test"
+		expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="c1520022-730a-46f8-856a-85275202eccb"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:METHOD_NOT_ALLOWED"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[405]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="104434e5-6533-43d3-840d-3e2d12f47774"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="777eedc0-0d5b-4d1f-ba08-eb878addbf84"
+				actual="#[vars.httpStatus]" expected="#[405]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-501-NOT_IMPLEMENTED"
+		doc:id="f2a9bf86-b2c2-4f76-ada0-8136052ca18a" description="Test"
+		expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="2bd0d13d-a934-4349-a794-957fef5e541e"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:NOT_IMPLEMENTED"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[401]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="b6d41741-7c63-4c83-ae0c-b520446daa2f"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="6c5e0f08-6565-4573-a45b-6faad9c3b7dc"
+				actual="#[vars.httpStatus]" expected="#[501]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-400-BAD_REQUEST"
+		doc:id="ae9b018a-a131-415d-bbfb-664647635673" description="Test"
+		expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="684c2fff-53c0-43ab-89ac-209fcacfbd19"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:BAD_REQUEST"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[400]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="18fb2647-6362-4979-9604-d06cf2aef9ca"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="f9a8cade-c018-4797-a224-7e55d476a8a3"
+				actual="#[vars.httpStatus]" expected="#[400]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-415-UNSUPPORTED_MEDIA_TYPE"
+		doc:id="93cdbed9-2cde-4928-a222-68e9aed2d68b" description="Test"
+		expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="b087cb7b-afb1-4459-ab65-4afb1c2d2f94"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:UNSUPPORTED_MEDIA_TYPE"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[415]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="bcc46e45-5a04-4466-96ab-b7d0613c6b93"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="4b4ef0b0-371f-4091-b2b7-ea1ae86701fc"
+				actual="#[vars.httpStatus]" expected="#[415]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-deletecsv-api-mainTest-406-NOT_ACCEPTABLE"
+		doc:id="19aafb2e-00ce-4983-b957-00727108bc56" description="Test"
+		expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="c8626327-f1a8-4025-b31d-5d9e48bd8cec"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-deletecsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:NOT_ACCEPTABLE"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[406]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-deletecsv-api-main"
+				doc:id="2baae3a0-fb32-4722-bc9d-3463d3f6f98c"
+				name="cm-deletecsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="188bdbe3-5c72-4793-b66c-1d9808c8307c"
+				actual="#[vars.httpStatus]" expected="#[406]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="new-test-suite-delete:\delete:application\json:cm-deletecsv-api-configTest" doc:id="5ffcaaca-651d-4163-bbb6-5abd2046746e" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Read" doc:id="db8dcfbe-2984-4413-969c-c71716bf5b5a" processor="file:read">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1fb6babc-8bab-4065-b1e3-69c45da8e5f2" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/csv ---
+[
+    {
+      "Client Key": "17944757-3e3f-4ee4-8929-5d470c80d670",
+      "First Name": "Uma",
+      "Middle Name": "Rao",
+      "Last Name": "Madasu",
+      "Birth Date": "725155200",
+      "Height": "10.5",
+      "Weight": "160lbs",
+      "Billing Street": "2337",
+      "Billing City": "promenade blvd",
+      "Billing State": "Montgomery",
+      "Billing Postal Code": "36106",
+      "Billing Country": "USA",
+      "Created Date": "1602979200"
+    }
+  ]]' mediaType="application/csv" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5b6bed98-ee23-4359-b3e5-a4abc87bcddb" processor="file:write">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c7a4ea56-cfcf-4fb4-9ca3-55faae615541" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="9960eec7-9985-4148-8af4-93ea3ac89331">
+				<munit:attributes
+					value='#[{headers: {"clientkey" : "17944757-3e3f-4ee4-8929-5d470c80d670"}}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to delete:\delete:application\json:cm-deletecsv-api-config" doc:id="63a456fe-ad18-4640-9614-afcc3d2f1949" name="delete:\delete:application\json:cm-deletecsv-api-config"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="926a6d05-4f02-42b0-a4a8-da211281ce0b" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="bcc1580b-cf0c-45fc-a169-91679d6e956e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="new-test-suite-delete:\delete:application\json:cm-deletecsv-api-configTest-emptyCheck" doc:id="cf6722e2-a97f-45d6-96ff-dd1044162901" description="Test" expectedErrorType="VALIDATION_CHECK:IS_EMPTY_CHECK">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Mock when Read" doc:id="cac85a23-cb21-4817-bd56-f4adc9d1acec" processor="file:read">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="1fb6babc-8bab-4065-b1e3-69c45da8e5f2" attributeName="doc:id" />
+					</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/csv ---
+[]]" mediaType="application/csv" />
+				</munit-tools:then-return>
+					
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<munit:set-event doc:name="Set Event" doc:id="c021d7a7-f6a8-4406-b18e-77ffbc7032c8">
+					<munit:attributes value='#[{headers: {"clientkey" : "17944757-3e3f-4ee4-8929-5d470c80d670"}}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to delete:\delete:application\json:cm-deletecsv-api-config" doc:id="5f8ffb1b-226f-4382-95dd-cba4bfc2f4ce" name="delete:\delete:application\json:cm-deletecsv-api-config" />
+			</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="53a23d4c-9041-49b1-8615-e59af48d2879" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+			</munit:validation>
+		</munit:test>
+	<munit:test name="new-test-suite-delete:\delete:application\json:cm-deletecsv-api-configTest-filenotfound" doc:id="f0c41cc9-1579-48d3-9e8b-64c11082ed6f" description="Test" expectedErrorType="FILE:ILLEGAL_PATH">
+			<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="960c4dd1-5c3b-43d8-974e-7a9c048d59e5" processor="file:read">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1fb6babc-8bab-4065-b1e3-69c45da8e5f2" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				
+				<munit-tools:then-return >
+					<munit-tools:error typeId="#['FILE:ILLEGAL_PATH']" />
+				</munit-tools:then-return>
+				
+			</munit-tools:mock-when>
+			</munit:behavior>
+		<munit:execution>
+				<munit:set-event doc:name="Set Event" doc:id="e9f5e481-46ca-42e7-9e02-2e9ad0479d8b">
+					<munit:attributes value='#[{headers: {"clientkey" : "17944757-3e3f-4ee4-8929-5d470c80d670"}}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to delete:\delete:application\json:cm-deletecsv-api-config" doc:id="656fd6e1-7c72-4ad1-8497-2f97816a731f" name="delete:\delete:application\json:cm-deletecsv-api-config" />
+			</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8453bbea-38e1-4c8b-8c29-3ea807167aa8" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+			</munit:validation>
+		</munit:test>
+
+
+</mule>

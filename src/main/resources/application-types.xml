@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="sampel" format="json">
+      <types:shape format="weave" example="examples/new 8.json"><![CDATA[%dw 2.0
+
+type sampel = Array<{|  "Client Key": String,   "First Name": String,   "Middle Name": String,   "Last Name": String,   "Birth Date": String,   Height: String,   Weight: String,   "Billing Street": String,   "Billing City": String,   "Billing State": String,   "Billing Postal Code": String,   "Billing Country": String,   "Created Date": String|}> {"example": "[{\\\"Client Key\\\":\\\"9d60fc92-d69c-482b-aec0-35db2e0332f4\\\",\\\"First Name\\\":\\\"Uma\\\",\\\"Middle Name\\\":\\\"Rao\\\",\\\"Last Name\\\":\\\"Madasu\\\",\\\"Birth Date\\\":\\\"725155200\\\",\\\"Height\\\":\\\"10.5\\\",\\\"Weight\\\":\\\"160lbs\\\",\\\"Billing Street\\\":\\\"2337\\\",\\\"Billing City\\\":\\\"promenade blvd\\\",\\\"Billing State\\\":\\\"Montgomery\\\",\\\"Billing Postal Code\\\":\\\"36106\\\",\\\"Billing Country\\\":\\\"USA\\\",\\\"Created Date\\\":\\\"1603429508\\\"},{\\\"Client Key\\\":\\\"8d2ae03e-2fd5-450e-adbe-626d3610159a\\\",\\\"First Name\\\":\\\"Uma\\\",\\\"Middle Name\\\":\\\"Rao\\\",\\\"Last Name\\\":\\\"Madasu\\\",\\\"Birth Date\\\":\\\"725155200\\\",\\\"Height\\\":\\\"10.5\\\",\\\"Weight\\\":\\\"160lbs\\\",\\\"Billing Street\\\":\\\"2337\\\",\\\"Billing City\\\":\\\"promenade blvd\\\",\\\"Billing State\\\":\\\"Montgomery\\\",\\\"Billing Postal Code\\\":\\\"36106\\\",\\\"Billing Country\\\":\\\"USA\\\",\\\"Created Date\\\":\\\"1603429518\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#ed272b9a-6ca1-4aeb-81e0-683d3fb82d47">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="sampel"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e9442133-a25a-4f55-b867-a09c3ff67614"/>
+</types:mule>

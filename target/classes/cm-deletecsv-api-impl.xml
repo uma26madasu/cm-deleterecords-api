@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="cm-deletecsvFlow" doc:id="00ebcf2e-63a2-465a-83f3-a9258270e7e6" >
+		<set-variable value='#[attributes.headers."clientkey"]' doc:name="input_key" doc:id="117adf30-a854-4562-a2bd-8056fc482744" variableName="input_key" />
+		<set-variable value='#[output application/java --- p("mule.home") ++ "\\" ++ p("fileName") ++ "-" ++ p("mule.env") ++ ".csv"]' doc:name="path" doc:id="c25afaa1-7ce3-4cc2-b4b0-042131ef5666" variableName="path"/>
+		<file:read doc:id="1fb6babc-8bab-4065-b1e3-69c45da8e5f2" path="#[vars.path]" doc:name="Read" />
+		<set-payload value="#[output application/json --- payload]" doc:name="Set Payload" doc:id="fb1a095e-8a9e-4c97-9101-e40e1d0c0849" mimeType="application/json"/>
+		<ee:transform doc:name="filter with input_key" doc:id="ed272b9a-6ca1-4aeb-81e0-683d3fb82d47">
+			<ee:message>
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+(sizeOf (payload filter $."Client Key" == vars.input_key) ) == 0]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dataweaves/fiter_response.dwl" variableName="read_response" />
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="c86258f9-1e87-441f-8a1e-e32284f7529d" >
+			<when expression="#[payload]">
+				<raise-error doc:name="Raise error" doc:id="a377b4f9-b56b-4953-b30a-51c7db601379" type="VALIDATION_CHECK:IS_EMPTY_CHECK" description="Unable to find the record."/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="a701333d-2da8-48da-b57c-ccfe5885df85" />
+			</otherwise>
+		</choice>
+		<file:write doc:id="c7a4ea56-cfcf-4fb4-9ca3-55faae615541" path="#[vars.path]" doc:name="Write" >
+			<file:content ><![CDATA[#[output application/csv
+---
+vars.read_response]]]></file:content>
+		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="bcc1580b-cf0c-45fc-a169-91679d6e956e" message='#["Record with the client key " ++ vars.input_key ++ " deleted successfully"]'/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7c7760fe-55d0-4bd9-ae39-b67e52396903" type="VALIDATION_CHECK:IS_EMPTY_CHECK" >
+				<ee:transform doc:name="Transform Message" doc:id="61218263-0fc9-48e9-95b2-cbbe72888faf" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Error",
+	Message: error.description
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="64ba9d81-3439-4243-bb32-a05db60bbbd7" type="FILE:ILLEGAL_PATH">
+				<ee:transform doc:name="Transform Message" doc:id="12ef15fa-d9a6-46df-bc0c-8198fd079e85" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Error",
+	Message: "Unable to read the file, as the file in the " ++ (error.description as String)
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

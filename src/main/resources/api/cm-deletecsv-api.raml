@@ -1,0 +1,22 @@
+#%RAML 1.0
+title: CM-deleteCSV-API
+baseUri: http://localhost:8081/api
+version: V1
+traits: 
+  headers : !include headers_trait.raml
+  errors: !include Errors_trait.raml
+
+  
+        
+/delete:
+  delete:
+    description: This method will delete a record in CSV File
+    displayName: Delete Record
+    is:
+      - headers:
+      - errors:
+          
+    body:
+      application/json:
+    responses:
+      204:
